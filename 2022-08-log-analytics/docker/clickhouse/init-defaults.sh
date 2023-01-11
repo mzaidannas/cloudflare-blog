@@ -26,6 +26,7 @@ clickhouse-client --query "CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB}";
 echo -n '
 CREATE TABLE r0.logs
 (
+    `id` UUID,
     `bytes` UInt8,
     `event_time`  DateTime,
     `host` String,
@@ -35,6 +36,7 @@ CREATE TABLE r0.logs
     `request` String,
     `status` String,
     `user-identifier` String,
+    `body` String
 )
 ENGINE = MergeTree
 PARTITION BY toStartOfHour(event_time)

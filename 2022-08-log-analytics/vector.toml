@@ -3,11 +3,20 @@ type = "demo_logs"
 format = "json"
 decoding.codec = "json"
 
-[sinks.clickhouse]
+[transforms.modified_logs]
+type = "remap"
 inputs = ["logs"]
+source = '''
+  .id = uuid_v4()
+  .event_time = to_unix_timestamp(now())
+  .body = "Some mock body"
+'''
+
+[sinks.clickhouse]
+inputs = ["modified_logs"]
 type = "clickhouse"
 database = "r0"
-endpoint = "http://clickhouse-0.localhost:8123"
+endpoint = "http://clickhouse:8123"
 table = "logs"
 compression = "gzip"
 tls.verify_hostname = false
@@ -17,3 +26,9 @@ auth.strategy = "basic"
 batch.timeout_secs = 10
 request.concurrency = "adaptive"
 
+[sinks.quickwit]
+type = "http"
+inputs = ["modified_logs"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "http://quickwit:7280/api/v1/logs/ingest"

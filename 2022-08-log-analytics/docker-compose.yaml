@@ -3,7 +3,7 @@ version: "3"
 
 services:
   quickwit:
-    image: quickwit/quickwit:v0.4.0
+    image: quickwit/quickwit:0.4.0-bullseye
     ports:
      - "7280:7280"
     volumes:
@@ -12,7 +12,7 @@ services:
     entrypoint: /docker/quickwit/entrypoint.sh
 
   clickhouse:
-    image: clickhouse/clickhouse-server:22.7
+    image: clickhouse/clickhouse-server:22-alpine
     ports:
       - "8123:8123"
       - "9000:9000"
@@ -34,7 +34,7 @@ services:
       - quickwit
 
   vector:
-    image: timberio/vector:0.23.0-debian
+    image: timberio/vector:0.26.0-distroless-static
     container_name: vector
     ports:
       - 8888:8888
@@ -53,40 +53,9 @@ services:
       - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-clickhouse-datasource
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
-    entrypoint:
-      - sh
-      - -euc
-      - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-          - name: 'ClickHouse'
-            type: 'grafana-clickhouse-datasource'
-            isDefault: true
-            jsonData:
-              defaultDatabase: r0
-              port: 9000
-              server: clickhouse
-              username: demouser
-              tlsSkipVerify: false
-            secureJsonData:
-              password: 239QV8JkGmF9AZM
-            editable: true
-        EOF
-        mkdir -p /etc/grafana/provisioning/dashboards
-        cat <<EOF > /etc/grafana/provisioning/dashboards/dashboard.yaml
-        apiVersion: 1
-        providers:
-          - name: demo-logs
-            type: file
-            updateIntervalSeconds: 30
-            options:
-              path:  /var/lib/grafana/dashboards
-              foldersFromFilesStructure: true
-        EOF
-        /run.sh
+    entrypoint: /entrypoint.sh
     ports:
       - "3000:3000"
     depends_on:
       - clickhouse
+      - quickwit

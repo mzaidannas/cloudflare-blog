@@ -22,7 +22,6 @@ services:
       CLICKHOUSE_DB: r0
       CLICKHOUSE_USER: demouser
       CLICKHOUSE_PASSWORD: 239QV8JkGmF9AZM
-    hostname: clickhouse-0.localhost
       #    ulimits:
       #nproc: 65535
       #nofile:

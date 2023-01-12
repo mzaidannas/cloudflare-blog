@@ -4,7 +4,7 @@ CLICKHOUSE_DB="${CLICKHOUSE_DB:-database}";
 CLICKHOUSE_USER="${CLICKHOUSE_USER:-user}";
 CLICKHOUSE_PASSWORD="${CLICKHOUSE_PASSWORD:-password}";
 
-cat <<EOT >> /etc/clickhouse-server/users.d/user.xml
+cat <<EOT > /etc/clickhouse-server/users.d/user.xml
 <yandex>
   <!-- Docs: <https://clickhouse.tech/docs/en/operations/settings/settings_users/> -->
   <users>
@@ -19,12 +19,13 @@ cat <<EOT >> /etc/clickhouse-server/users.d/user.xml
   </users>
 </yandex>
 EOT
+
 #cat /etc/clickhouse-server/users.d/user.xml;
 
 clickhouse-client --query "CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB}";
 
 echo -n '
-CREATE TABLE r0.logs
+CREATE TABLE IF NOT EXISTS r0.logs
 (
     `id` UUID,
     `bytes` UInt8,

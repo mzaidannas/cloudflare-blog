@@ -7,7 +7,7 @@ decoding.codec = "json"
 type = "remap"
 inputs = ["logs"]
 source = '''
-  .id = uuid_v4()
+  .id = to_int(now())
   .event_time = to_unix_timestamp(now())
   .body = "Some mock body"
 '''

@@ -10,42 +10,20 @@ index_id: logs
 doc_mapping:
   field_mappings:
     - name: id
-      type: text
-      tokenizer: raw
-      fast: true
-    - name: bytes
       type: u64
+      fast: true
+      stored: false
     - name: event_time
       type: datetime
       input_formats:
         - unix_timestamp
       fast: true
-    - name: host
-      type: text
-      tokenizer: raw
-    - name: method
-      type: text
-      tokenizer: raw
-    - name: protocol
-      type: text
-      tokenizer: raw
-    - name: referer
-      type: text
-      tokenizer: raw
-    - name: request
-      type: text
-      tokenizer: raw
-    - name: status
-      type: text
-      tokenizer: raw
-    - name: user-identifier
-      type: text
-      tokenizer: raw
+      stored: false
     - name: body
       type: text
-      tokenizer: default
+      stored: false
       record: position
   timestamp_field: event_time
 
 search_settings:
-  default_search_fields: [status, body]
+  default_search_fields: [body]

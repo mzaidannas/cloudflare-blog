@@ -27,7 +27,7 @@ clickhouse-client --query "CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB}";
 echo -n '
 CREATE TABLE IF NOT EXISTS r0.logs
 (
-    `id` UUID,
+    `id` UInt64,
     `bytes` UInt8,
     `event_time`  DateTime,
     `host` String,

@@ -2,6 +2,18 @@
 version: "3"
 
 services:
+  minio:
+    image: minio/minio
+    ports:
+      - "9002:9002"
+      - "9001:9001"
+    volumes:
+      - minio:/data
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: e026084d93db6e87
+    command: server --address ":9002" --console-address ":9001" /data
+
   quickwit:
     image: quickwit/quickwit:0.4.0-bullseye
     ports:
@@ -58,3 +70,6 @@ services:
     depends_on:
       - clickhouse
       - quickwit
+
+volumes:
+  minio: {}

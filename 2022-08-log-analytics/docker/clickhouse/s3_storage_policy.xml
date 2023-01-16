@@ -1,0 +1,27 @@
+<clickhouse>
+  <!-- Docs: https://clickhouse.com/docs/en/guides/sre/configuring-s3-for-clickhouse-use/> -->
+  <storage_configuration>
+    <disks>
+      <s3_disk>
+        <type>s3</type>
+        <endpoint>http://minio:9002/clickhouse//</endpoint>
+        <access_key_id>minio</access_key_id>
+        <secret_access_key>e026084d93db6e87</secret_access_key>
+        <region></region>
+        <metadata_path>/var/lib/clickhouse/disks/s3_disk/</metadata_path>
+        <cache_enabled>true</cache_enabled>
+        <data_cache_enabled>true</data_cache_enabled>
+        <cache_path>/var/lib/clickhouse/disks/s3_disk/cache/</cache_path>
+      </s3_disk>
+    </disks>
+    <policies>
+      <s3_main>
+        <volumes>
+          <main>
+            <disk>s3_disk</disk>
+          </main>
+        </volumes>
+      </s3_main>
+    </policies>
+  </storage_configuration>
+</clickhouse>

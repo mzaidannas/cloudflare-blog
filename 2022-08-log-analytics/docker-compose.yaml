@@ -9,6 +9,8 @@ services:
       - "9001:9001"
     volumes:
       - minio:/data
+      - ./docker/minio/entrypoint.sh:/docker/minio/entrypoint.sh:ro
+    entrypoint: /docker/minio/entrypoint.sh
     environment:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: e026084d93db6e87
@@ -22,6 +24,13 @@ services:
      - ./quickwit-index-config.yaml:/quickwit/index-config.yaml:ro
      - ./docker/quickwit/entrypoint.sh:/docker/quickwit/entrypoint.sh:ro
     entrypoint: /docker/quickwit/entrypoint.sh
+    environment:
+      QW_S3_ENDPOINT: http://minio:9002
+      S3_PATH: s3://quickwit/indexes
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: e026084d93db6e87
+    depends_on:
+      - minio
 
   clickhouse:
     image: clickhouse/clickhouse-server:22-alpine
@@ -34,6 +43,9 @@ services:
       CLICKHOUSE_DB: r0
       CLICKHOUSE_USER: demouser
       CLICKHOUSE_PASSWORD: 239QV8JkGmF9AZM
+      S3_PATH: http://minio:9002/clickhouse/
+      AWS_ACCESS_KEY_ID: minio
+      AWS_SECRET_ACCESS_KEY: e026084d93db6e87
       #    ulimits:
       #nproc: 65535
       #nofile:
@@ -41,7 +53,9 @@ services:
       #  hard: 262144
     volumes:
       - ./docker/clickhouse/init-defaults.sh:/docker-entrypoint-initdb.d/init-defaults.sh:ro
+      - ./docker/clickhouse/s3_storage_policy.xml:/etc/clickhouse-server/config.d/s3_storage_policy.xml:ro
     depends_on:
+      - minio
       - quickwit
 
   vector:

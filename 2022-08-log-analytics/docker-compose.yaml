@@ -17,7 +17,7 @@ services:
     command: server --address ":9002" --console-address ":9001" /data
 
   quickwit:
-    image: quickwit/quickwit:0.4.0-bullseye
+    image: quickwit/quickwit:0.6.0-bullseye
     ports:
      - "7280:7280"
     volumes:
@@ -26,6 +26,8 @@ services:
     entrypoint: /docker/quickwit/entrypoint.sh
     environment:
       QW_S3_ENDPOINT: http://minio:9002
+      QW_S3_FORCE_PATH_STYLE_ACCESS: true
+      AWS_REGION: us-east-1
       S3_PATH: s3://quickwit/indexes
       AWS_ACCESS_KEY_ID: minio
       AWS_SECRET_ACCESS_KEY: e026084d93db6e87
@@ -33,7 +35,7 @@ services:
       - minio
 
   clickhouse:
-    image: clickhouse/clickhouse-server:22-alpine
+    image: clickhouse/clickhouse-server:23-alpine
     ports:
       - "8123:8123"
       - "9000:9000"

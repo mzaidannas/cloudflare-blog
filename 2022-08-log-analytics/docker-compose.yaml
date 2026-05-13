@@ -17,7 +17,7 @@ services:
     command: server --address ":9002" --console-address ":9001" /data
 
   quickwit:
-    image: quickwit/quickwit:0.6.0-bullseye
+    image: quickwit/quickwit:v0.9.0-rc
     ports:
      - "7280:7280"
     volumes:
@@ -35,7 +35,7 @@ services:
       - minio
 
   clickhouse:
-    image: clickhouse/clickhouse-server:23-alpine
+    image: clickhouse/clickhouse-server:26.1.12-alpine
     ports:
       - "8123:8123"
       - "9000:9000"
@@ -58,11 +58,9 @@ services:
       - ./docker/clickhouse/s3_storage_policy.xml:/etc/clickhouse-server/config.d/s3_storage_policy.xml:ro
     depends_on:
       - minio
-      - quickwit
 
   vector:
-    image: timberio/vector:0.26.0-distroless-static
-    container_name: vector
+    image: timberio/vector:0.55.0-distroless-static
     ports:
       - 8888:8888
     volumes:
@@ -72,15 +70,18 @@ services:
       - quickwit
 
   grafana:
-    build: .
+    image: grafana/grafana
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-clickhouse-datasource
+      - quickwit-quickwit-datasource,grafana-clickhouse-datasource
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
-    entrypoint: /entrypoint.sh
+    entrypoint: /docker/grafana/entrypoint.sh
+    volumes:
+      - ./dashboards/demo-logs.json:/var/lib/grafana/dashboards/demo-logs.json:rw
+      - ./docker/grafana/entrypoint.sh:/docker/grafana/entrypoint.sh:ro
     ports:
       - "3000:3000"
     depends_on:

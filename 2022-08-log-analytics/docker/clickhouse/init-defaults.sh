@@ -5,8 +5,8 @@ CLICKHOUSE_USER="${CLICKHOUSE_USER:-user}";
 CLICKHOUSE_PASSWORD="${CLICKHOUSE_PASSWORD:-password}";
 
 cat <<EOT > /etc/clickhouse-server/users.d/user.xml
-<yandex>
-  <!-- Docs: <https://clickhouse.tech/docs/en/operations/settings/settings_users/> -->
+<clickhouse>
+  <!-- Docs: <https://clickhouse.com/docs/en/operations/settings/settings_users/> -->
   <users>
     <${CLICKHOUSE_USER}>
       <profile>default</profile>
@@ -17,7 +17,7 @@ cat <<EOT > /etc/clickhouse-server/users.d/user.xml
       <quota>default</quota>
     </${CLICKHOUSE_USER}>
   </users>
-</yandex>
+</clickhouse>
 EOT
 #cat /etc/clickhouse-server/users.d/user.xml;
 

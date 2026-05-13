@@ -3,7 +3,7 @@
 # Link: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/logs/data-model.md
 #
 
-version: 0.9
+version: 0.8
 
 index_id: logs
 

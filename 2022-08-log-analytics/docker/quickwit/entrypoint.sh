@@ -2,7 +2,7 @@
 set -e
 
 # Create Quickwit config file.
-echo "version: 0.4
+echo "version: 0.8
 default_index_root_uri: ${S3_PATH}
 " > config/quickwit.yaml
 

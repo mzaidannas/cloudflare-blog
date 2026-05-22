@@ -589,7 +589,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Demo logs dashboard",
+  "title": "ClickHouse logs dashboard",
   "uid": "JNhyOMz4k",
   "version": 1,
   "weekStart": ""

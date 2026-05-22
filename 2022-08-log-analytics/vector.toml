@@ -90,7 +90,7 @@ source = '''
     9
   }
 
-  .Timestamp          = now()
+  .Timestamp          = to_unix_timestamp(now()) * 1000000000
   .SeverityText       = _sev_text
   .SeverityNumber     = _sev_num
   .ServiceName        = _service

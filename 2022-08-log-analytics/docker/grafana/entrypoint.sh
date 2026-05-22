@@ -20,7 +20,6 @@ datasources:
   - name: 'Quickwit'
     type: 'quickwit-quickwit-datasource'
     url: 'http://quickwit:7280/api/v1'
-    isDefault: true
     jsonData:
       tlsSkipVerify: false
       index: 'otel-logs-v0_9'
@@ -33,7 +32,7 @@ mkdir -p /etc/grafana/provisioning/dashboards
 cat <<EOF > /etc/grafana/provisioning/dashboards/dashboard.yaml
 apiVersion: 1
 providers:
-  - name: demo-logs
+  - name: clickhouse-logs
     type: file
     updateIntervalSeconds: 30
     options:

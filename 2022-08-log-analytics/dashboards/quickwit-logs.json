@@ -1,0 +1,580 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "displayLabels": ["percent"],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "attributes.http.status_code",
+              "id": "2",
+              "settings": {
+                "size": "20",
+                "order": "desc",
+                "orderBy": "_count",
+                "min_doc_count": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Status pie",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "displayLabels": ["percent"],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "attributes.http.protocol",
+              "id": "2",
+              "settings": {
+                "size": "10",
+                "order": "desc",
+                "orderBy": "_count",
+                "min_doc_count": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Protocol pie",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "displayLabels": ["percent"],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "values": []
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "attributes.http.method",
+              "id": "2",
+              "settings": {
+                "size": "10",
+                "order": "desc",
+                "orderBy": "_count",
+                "min_doc_count": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Method pie",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "red", "value": 80}
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "options": {
+        "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "attributes.http.user_agent",
+              "id": "2",
+              "settings": {
+                "size": "20",
+                "order": "desc",
+                "orderBy": "_count",
+                "min_doc_count": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "User-agent Bar",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "red", "value": 80}
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 5,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "attributes.http.bytes",
+              "id": "2",
+              "settings": {
+                "size": "50",
+                "order": "desc",
+                "orderBy": "_term",
+                "min_doc_count": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Bytes transferred",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "spanNulls": false
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "date_histogram",
+              "field": "timestamp_nanos",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "trimEdges": "0"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Log volume over time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "spanNulls": false
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "severity_text:ERROR OR severity_text:WARN",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "count", "id": "1"}],
+          "bucketAggs": [
+            {
+              "type": "terms",
+              "field": "severity_text",
+              "id": "3",
+              "settings": {
+                "size": "5",
+                "order": "desc",
+                "orderBy": "_count",
+                "min_doc_count": "1"
+              }
+            },
+            {
+              "type": "date_histogram",
+              "field": "timestamp_nanos",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": "0",
+                "trimEdges": "0"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Errors & Warnings over time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "quickwit-quickwit-datasource",
+        "uid": "P0F86FA451D0A474A"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 8,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "quickwit-quickwit-datasource",
+            "uid": "P0F86FA451D0A474A"
+          },
+          "query": "*",
+          "refId": "A",
+          "timeField": "timestamp_nanos",
+          "metrics": [{"type": "logs", "id": "1", "settings": {"limit": "500"}}],
+          "bucketAggs": []
+        }
+      ],
+      "title": "Raw Logs",
+      "type": "logs"
+    }
+  ],
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": ["quickwit", "logs", "otel"],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Quickwit logs dashboard",
+  "uid": "QWlogs001",
+  "version": 1,
+  "weekStart": ""
+}

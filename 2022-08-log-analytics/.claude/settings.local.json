@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://admin:admin@localhost:3000/api/datasources)",
+      "Bash(python3 -m json.tool)",
+      "Bash(docker compose *)",
+      "Bash(curl -s http://admin:admin@localhost:3000/api/dashboards/uid/QWlogs001)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('dashboard',{}\\).get\\('title','not found'\\)\\)\")"
+    ]
+  }
+}

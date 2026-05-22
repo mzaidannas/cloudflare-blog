@@ -94,7 +94,7 @@
             }
           },
           "queryType": "sql",
-          "rawSql": "SELECT  count(), status FROM r0.logs group by status",
+          "rawSql": "SELECT count(), LogAttributes['http.status_code'] AS status FROM r0.logs GROUP BY status",
           "refId": "A"
         }
       ],
@@ -167,7 +167,7 @@
             }
           },
           "queryType": "sql",
-          "rawSql": "SELECT count(), protocol FROM r0.logs group by protocol",
+          "rawSql": "SELECT count(), LogAttributes['http.protocol'] AS protocol FROM r0.logs GROUP BY protocol",
           "refId": "A"
         }
       ],
@@ -240,7 +240,7 @@
             }
           },
           "queryType": "sql",
-          "rawSql": "SELECT count(), method FROM r0.logs group by method",
+          "rawSql": "SELECT count(), LogAttributes['http.method'] AS method FROM r0.logs GROUP BY method",
           "refId": "A"
         }
       ],
@@ -309,7 +309,7 @@
             }
           },
           "queryType": "sql",
-          "rawSql": "SELECT count(), \"user-identifier\" FROM r0.logs group by \"user-identifier\"\n",
+          "rawSql": "SELECT count(), LogAttributes['http.user_agent'] AS user_agent FROM r0.logs GROUP BY user_agent",
           "refId": "A"
         }
       ],
@@ -378,7 +378,7 @@
             }
           },
           "queryType": "sql",
-          "rawSql": "SELECT bytes,count() from r0.logs group by bytes order by bytes desc;",
+          "rawSql": "SELECT LogAttributes['http.bytes'] AS bytes, count() FROM r0.logs GROUP BY bytes ORDER BY bytes DESC",
           "refId": "A"
         }
       ],

@@ -80,7 +80,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     entrypoint: /docker/grafana/entrypoint.sh
     volumes:
-      - ./dashboards/demo-logs.json:/var/lib/grafana/dashboards/demo-logs.json:rw
+      - ./dashboards/clickhouse-logs.json:/var/lib/grafana/dashboards/clickhouse-logs.json:rw
+      - ./dashboards/quickwit-logs.json:/var/lib/grafana/dashboards/quickwit-logs.json:rw
       - ./docker/grafana/entrypoint.sh:/docker/grafana/entrypoint.sh:ro
     ports:
       - "3000:3000"

@@ -7,9 +7,54 @@ decoding.codec = "json"
 type = "remap"
 inputs = ["logs"]
 source = '''
-  .id = to_int(now())
-  .event_time = to_unix_timestamp(now())
-  .body = "Some mock body"
+  _host     = string(del(.host))     ?? "unknown"
+  _service  = string(del(.service))  ?? "vector"
+  _method   = string(del(.method))   ?? ""
+  _request  = string(del(.request))  ?? ""
+  _status   = string(del(.status))   ?? "0"
+  _protocol = string(del(.protocol)) ?? ""
+  _bytes    = to_string!(del(.bytes))
+  _referer  = string(del(.referer))  ?? ""
+  _user     = string(del(."user-identifier")) ?? ""
+  del(.datetime)
+  del(.source_type)
+  del(.timestamp)
+
+  _severity = if starts_with(_status, "5") {
+    "ERROR"
+  } else if starts_with(_status, "4") {
+    "WARN"
+  } else if starts_with(_status, "3") {
+    "NOTICE"
+  } else {
+    "INFO"
+  }
+
+  .resourceLogs = [{
+    "resource": {
+      "attributes": [
+        {"key": "service.name", "value": {"stringValue": _service}},
+        {"key": "host.name",    "value": {"stringValue": _host}}
+      ]
+    },
+    "scopeLogs": [{
+      "scope": {},
+      "logRecords": [{
+        "timeUnixNano": to_string(to_unix_timestamp(now()) * 1000000000),
+        "severityText": _severity,
+        "body": {"stringValue": _method + " " + _request + " " + _status},
+        "attributes": [
+          {"key": "http.status_code", "value": {"stringValue": _status}},
+          {"key": "http.method",      "value": {"stringValue": _method}},
+          {"key": "http.url",         "value": {"stringValue": _request}},
+          {"key": "http.protocol",    "value": {"stringValue": _protocol}},
+          {"key": "http.bytes",       "value": {"stringValue": _bytes}},
+          {"key": "http.referer",     "value": {"stringValue": _referer}},
+          {"key": "http.user_agent",  "value": {"stringValue": _user}}
+        ]
+      }]
+    }]
+  }]
 '''
 
 [sinks.clickhouse]
@@ -27,8 +72,13 @@ batch.timeout_secs = 10
 request.concurrency = "adaptive"
 
 [sinks.quickwit]
-type = "http"
+type = "opentelemetry"
 inputs = ["modified_logs"]
-encoding.codec = "json"
-framing.method = "newline_delimited"
-uri = "http://quickwit:7280/api/v1/logs/ingest"
+
+[sinks.quickwit.protocol]
+type = "http"
+uri = "http://quickwit:7280/api/v1/otel-logs-v0_9/otlp/v1/logs"
+method = "post"
+
+[sinks.quickwit.protocol.encoding]
+codec = "otlp"

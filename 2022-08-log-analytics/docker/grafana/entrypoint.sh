@@ -17,6 +17,17 @@ datasources:
     secureJsonData:
       password: 239QV8JkGmF9AZM
     editable: true
+  - name: 'Quickwit'
+    type: 'quickwit-quickwit-datasource'
+    url: 'http://quickwit:7280/api/v1'
+    isDefault: true
+    jsonData:
+      tlsSkipVerify: false
+      index: 'otel-logs-v0_9'
+      logLevelField: 'severity_text'
+      tracesDatasourceName: 'quickwit-quickwit-datasource'
+      logsDatasourceName: 'quickwit-quickwit-datasource'
+    editable: true
 EOF
 mkdir -p /etc/grafana/provisioning/dashboards
 cat <<EOF > /etc/grafana/provisioning/dashboards/dashboard.yaml

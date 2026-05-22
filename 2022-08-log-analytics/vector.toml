@@ -57,8 +57,58 @@ source = '''
   }]
 '''
 
+[transforms.clickhouse_logs]
+type = "remap"
+inputs = ["logs"]
+source = '''
+  _host     = string(del(.host))     ?? "unknown"
+  _service  = string(del(.service))  ?? "vector"
+  _method   = string(del(.method))   ?? ""
+  _request  = string(del(.request))  ?? ""
+  _status   = string(del(.status))   ?? "0"
+  _protocol = string(del(.protocol)) ?? ""
+  _bytes    = to_string!(del(.bytes))
+  _referer  = string(del(.referer))  ?? ""
+  _user     = string(del(."user-identifier")) ?? ""
+  del(.datetime)
+  del(.source_type)
+  del(.timestamp)
+
+  _sev_text = if starts_with(_status, "5") {
+    "ERROR"
+  } else if starts_with(_status, "4") {
+    "WARN"
+  } else {
+    "INFO"
+  }
+
+  _sev_num = if starts_with(_status, "5") {
+    17
+  } else if starts_with(_status, "4") {
+    13
+  } else {
+    9
+  }
+
+  .Timestamp          = now()
+  .SeverityText       = _sev_text
+  .SeverityNumber     = _sev_num
+  .ServiceName        = _service
+  .Body               = _method + " " + _request + " " + _status
+  .ResourceAttributes = {"host.name": _host}
+  .LogAttributes      = {
+    "http.method":      _method,
+    "http.url":         _request,
+    "http.status_code": _status,
+    "http.bytes":       _bytes,
+    "http.protocol":    _protocol,
+    "http.referer":     _referer,
+    "http.user_agent":  _user
+  }
+'''
+
 [sinks.clickhouse]
-inputs = ["modified_logs"]
+inputs = ["clickhouse_logs"]
 type = "clickhouse"
 database = "r0"
 endpoint = "http://clickhouse:8123"

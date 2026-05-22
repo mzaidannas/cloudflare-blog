@@ -56,20 +56,16 @@ clickhouse-client --query "CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB}";
 echo -n '
 CREATE TABLE IF NOT EXISTS r0.logs
 (
-    `id` UInt64,
-    `bytes` UInt8,
-    `event_time`  DateTime,
-    `host` String,
-    `method` String,
-    `protocol` String,
-    `referer` String,
-    `request` String,
-    `status` String,
-    `user-identifier` String,
-    `body` String
+    `Timestamp`         DateTime64(9) CODEC(Delta(8), ZSTD(1)),
+    `SeverityText`      LowCardinality(String) CODEC(ZSTD(1)),
+    `SeverityNumber`    UInt8,
+    `ServiceName`       LowCardinality(String) CODEC(ZSTD(1)),
+    `Body`              String CODEC(ZSTD(1)),
+    `ResourceAttributes` Map(LowCardinality(String), String) CODEC(ZSTD(1)),
+    `LogAttributes`     Map(LowCardinality(String), String) CODEC(ZSTD(1))
 )
 ENGINE = MergeTree
-PARTITION BY toStartOfHour(event_time)
-ORDER BY (event_time)
+PARTITION BY toDate(Timestamp)
+ORDER BY (ServiceName, Timestamp)
 SETTINGS storage_policy = '\'s3_main\'', index_granularity = 8192
 ;' | clickhouse-client

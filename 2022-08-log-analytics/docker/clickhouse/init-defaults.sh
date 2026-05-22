@@ -4,23 +4,6 @@ CLICKHOUSE_DB="${CLICKHOUSE_DB:-database}";
 CLICKHOUSE_USER="${CLICKHOUSE_USER:-user}";
 CLICKHOUSE_PASSWORD="${CLICKHOUSE_PASSWORD:-password}";
 
-cat <<EOT > /etc/clickhouse-server/users.d/user.xml
-<clickhouse>
-  <!-- Docs: <https://clickhouse.com/docs/en/operations/settings/settings_users/> -->
-  <users>
-    <${CLICKHOUSE_USER}>
-      <profile>default</profile>
-      <networks>
-        <ip>::/0</ip>
-      </networks>
-      <password>${CLICKHOUSE_PASSWORD}</password>
-      <quota>default</quota>
-    </${CLICKHOUSE_USER}>
-  </users>
-</clickhouse>
-EOT
-#cat /etc/clickhouse-server/users.d/user.xml;
-
 cat <<EOT > /etc/clickhouse-server/config.d/s3_storage_config.xml
 <clickhouse>
   <!-- Docs: https://clickhouse.com/docs/en/guides/sre/configuring-s3-for-clickhouse-use/> -->
@@ -51,7 +34,7 @@ cat <<EOT > /etc/clickhouse-server/config.d/s3_storage_config.xml
 EOT
 
 
-clickhouse-client --query "CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB}";
+clickhouse-client --user "${CLICKHOUSE_USER}" --password "${CLICKHOUSE_PASSWORD}" --query "CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB}";
 
 echo -n '
 CREATE TABLE IF NOT EXISTS r0.logs
@@ -68,4 +51,4 @@ ENGINE = MergeTree
 PARTITION BY toDate(Timestamp)
 ORDER BY (ServiceName, Timestamp)
 SETTINGS storage_policy = '\'s3_main\'', index_granularity = 8192
-;' | clickhouse-client
+;' | clickhouse-client --user "${CLICKHOUSE_USER}" --password "${CLICKHOUSE_PASSWORD}"

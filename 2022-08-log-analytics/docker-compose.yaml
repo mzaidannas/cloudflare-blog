@@ -2,7 +2,7 @@
 
 services:
   minio:
-    image: minio/minio
+    image: pgsty/silo:latest
     ports:
       - "9002:9002"
       - "9001:9001"
@@ -34,7 +34,7 @@ services:
       - minio
 
   clickhouse:
-    image: clickhouse/clickhouse-server:26.1.12-alpine
+    image: clickhouse/clickhouse-server:26.7.5-alpine
     ports:
       - "8123:8123"
       - "9000:9000"
@@ -59,7 +59,7 @@ services:
       - minio
 
   vector:
-    image: timberio/vector:0.55.0-distroless-static
+    image: timberio/vector:0.58.0.custom.5a24f7b-alpine
     ports:
       - 8888:8888
     volumes:
@@ -70,7 +70,7 @@ services:
       - quickwit
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:13.2.0-ubuntu
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true

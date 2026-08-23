@@ -16,7 +16,7 @@ services:
     command: server --address ":9002" --console-address ":9001" /data
 
   quickwit:
-    image: quickwit/quickwit:v0.9.0-rc
+    image: quickwit/quickwit:v0.9.0
     ports:
      - "7280:7280"
     volumes:

@@ -75,7 +75,7 @@ services:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_PLUGINS_PREINSTALL=grafana-clickhouse-datasource,quickwit-quickwit-datasource@@https://github.com/quickwit-oss/quickwit-datasource/releases/download/v0.6.0/quickwit-quickwit-datasource-0.6.0.zip
+      - GF_PLUGINS_PREINSTALL=grafana-clickhouse-datasource,quickwit-quickwit-datasource
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     entrypoint: /docker/grafana/entrypoint.sh
